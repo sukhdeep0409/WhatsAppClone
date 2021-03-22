@@ -7,6 +7,10 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.example.whatsappclone"
         minSdkVersion 24
@@ -37,7 +41,13 @@ dependencies {
 
     //otp dependency
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+
     implementation 'com.google.firebase:firebase-auth:20.0.3'
+    implementation 'com.google.firebase:firebase-database:19.7.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

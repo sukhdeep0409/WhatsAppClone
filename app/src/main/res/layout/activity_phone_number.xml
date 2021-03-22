@@ -60,18 +60,18 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/nameBox"
+                android:id="@+id/phoneBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/textbox"
-                android:inputType="text"
-                android:hint="Type your name" />
+                android:inputType="phone"
+                android:hint="Type your number" />
 
             <Button
-                android:id="@+id/name_get"
+                android:id="@+id/nameGet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#25D366"
