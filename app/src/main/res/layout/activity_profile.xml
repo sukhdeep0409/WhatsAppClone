@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OTPActivity">
+    android:background="#F9F9F9"
+    tools:context=".ProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,39 +17,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profilePic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="88dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@drawable/mobile_auth" />
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        android:src="@drawable/avatar" />
 
     <TextView
-        android:id="@+id/phoneLabel"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Verify Your Phone Number"
+        android:text="Profile Information"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/profilePic"
+        app:layout_constraintStart_toStartOf="@+id/profilePic"
+        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/OTP"
+        android:layout_marginTop="16dp"
+        android:text="@string/name"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="@+id/phoneLabel"
-        app:layout_constraintStart_toStartOf="@+id/phoneLabel"
-        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -68,31 +69,24 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <com.mukesh.OtpView
-                android:id="@+id/otpView"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/nameBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:itemBackground="@color/grey"
-                android:focusableInTouchMode="true"
-                app:OtpItemCount="6"
-                app:OtpLineColor="@color/green"
-                app:OtpViewType="line"
-                />
+                android:ems="10"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textbox"
+                android:inputType="text"
+                android:hint="Type your name" />
 
             <Button
-                android:id="@+id/name_get"
+                android:id="@+id/nameGet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/teal_700"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:text="Continue" />
-
+                android:text="Setup profile" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

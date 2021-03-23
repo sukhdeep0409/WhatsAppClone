@@ -2,6 +2,7 @@ package com.example.whatsappclone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,6 +38,10 @@ public class OTPActivity extends AppCompatActivity {
         binding = ActivityOTPBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("OTP Screen");
+
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
         dialog.setMessage("Sending OTP ...");
@@ -53,14 +58,10 @@ public class OTPActivity extends AppCompatActivity {
                 .setActivity(this)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-
-                    }
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {   }
 
                     @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-
-                    }
+                    public void onVerificationFailed(@NonNull FirebaseException e) {    }
 
                     @Override
                     public void onCodeSent(@NonNull String verifiedID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
@@ -84,6 +85,8 @@ public class OTPActivity extends AppCompatActivity {
             auth.signInWithCredential(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(this, "Logged In", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    finishAffinity();                      //closes all the previous activities
                 }
                 else {
                     Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();

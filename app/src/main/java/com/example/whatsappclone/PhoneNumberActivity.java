@@ -1,6 +1,7 @@
 package com.example.whatsappclone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,12 @@ public class PhoneNumberActivity extends AppCompatActivity {
         binding = ActivityPhoneNumberBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("WhatsApp Clone App");
+
+        binding.phoneBox.requestFocus();
+
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -33,6 +40,14 @@ public class PhoneNumberActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (auth != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finishAffinity();
+        }
     }
 }
