@@ -56,13 +56,13 @@ public class ChatActivity extends AppCompatActivity {
         upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        messages = new ArrayList<>();
-        adapter = new MessageAdapter(ChatActivity.this, messages);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerView.setAdapter(adapter);
-
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
+
+        messages = new ArrayList<>();
+        adapter = new MessageAdapter(ChatActivity.this, messages, senderRoom, receiverRoom);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance();
 
@@ -76,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Message message = dataSnapshot.getValue(Message.class);
+                            message.setMessageId(dataSnapshot.getKey());
                             messages.add(message);
                         }
 
@@ -95,17 +96,19 @@ public class ChatActivity extends AppCompatActivity {
             Date date = new Date();
             Message messageObject = new Message(msgTxt, senderUid, date.getTime());
 
+            String randomKey = database.getReference().push().getKey();
+
             database.getReference().child("chats")
                     .child(senderRoom)
                     .child("messages")
-                    .push()
+                    .child(randomKey)
                     .setValue(messageObject)
                     .addOnSuccessListener(aVoid -> {
                         Log.i("CHECK_ID", senderRoom);
                         database.getReference().child("chats")
                                 .child(receiverRoom)
                                 .child("messages")
-                                .push()
+                                .child(randomKey)
                                 .setValue(messageObject)
                                 .addOnSuccessListener(aVoid1 -> {
                                     Log.i("CHECK_ID", receiverRoom);
