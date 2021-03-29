@@ -10,16 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsAppClone"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".OTPActivity" />
-        <activity android:name=".PhoneNumberActivity">
+        <activity android:name=".Activities.ChatActivity"></activity>
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.OTPActivity" />
+        <activity android:name=".Activities.PhoneNumberActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activities.MainActivity" />
     </application>
 
 </manifest>

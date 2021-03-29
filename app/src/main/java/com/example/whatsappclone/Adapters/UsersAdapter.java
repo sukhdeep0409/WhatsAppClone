@@ -1,7 +1,7 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.Adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatsappclone.Activities.ChatActivity;
+import com.example.whatsappclone.R;
+import com.example.whatsappclone.Models.User;
 import com.example.whatsappclone.databinding.RowConversationBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
@@ -41,6 +43,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 .placeholder(R.drawable.avatar)
                 .into(holder.binding.profilePic);
 
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("name", user.getName());
+            intent.putExtra("uid", user.getUid());
+            context.startActivity(intent);
+        });
 
     }
 
