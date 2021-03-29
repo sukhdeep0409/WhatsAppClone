@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.whatsappclone.databinding.ActivityPhoneNumberBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,10 +43,11 @@ public class PhoneNumberActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (auth != null) {
+        if (auth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finishAffinity();
         }
