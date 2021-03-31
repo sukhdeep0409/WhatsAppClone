@@ -57,6 +57,12 @@ dependencies {
     //reactions
     implementation "com.github.pgreze:android-reactions:1.4"
 
+    //whatsapp status
+    implementation 'com.devlomi:circularstatusview:1.0.1'
+
+    //story view
+    implementation 'com.github.OMARIHAMZA:StoryView:1.0.2-alpha'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
