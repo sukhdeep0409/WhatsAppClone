@@ -15,6 +15,9 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -95,6 +98,9 @@ public class ChatActivity extends AppCompatActivity {
                     if (status.equals("online")) {
                         binding.status.setText(status);
                         binding.status.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        binding.status.setVisibility(View.GONE);
                     }
                 }
             }
@@ -190,6 +196,33 @@ public class ChatActivity extends AppCompatActivity {
             intent.setType("*/*");
             startActivityForResult(intent, 25);
         });
+
+        final Handler handler = new Handler();
+        binding.messageBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                database.getReference().child("presence").child(senderUid).setValue("typing... ");
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(userStoppedTyping, 1000);
+            }
+
+            Runnable userStoppedTyping = new Runnable() {
+                @Override
+                public void run() {
+                    database.getReference().child("presence").child(senderUid).setValue("online");
+                }
+            };
+        });
     }
 
     @Override
@@ -267,6 +300,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onResume();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         database.getReference().child("presence").child(uid).setValue("online");
+    }
+
+    @Override
+    protected void onPause() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database.getReference().child("presence").child(uid).setValue("offline");
+        super.onPause();
     }
 
     @Override
