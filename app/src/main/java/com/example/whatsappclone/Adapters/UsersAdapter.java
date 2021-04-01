@@ -80,6 +80,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, ChatActivity.class);
             intent.putExtra("name", user.getName());
+            if(!user.getProfileImage().equals("No Image")) {
+                intent.putExtra("image", user.getProfileImage());
+            }
+            else {
+                intent.putExtra("image", "No Image");
+            }
             intent.putExtra("uid", user.getUid());
             context.startActivity(intent);
         });

@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        binding.recyclerView.showShimmerAdapter();
+
         database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -97,9 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-                    users.add(user);
+                    if (!user.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        users.add(user);
+                    }
                 }
 
+                binding.recyclerView.hideShimmerAdapter();
                 adapter.notifyDataSetChanged();
             }
 
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) { }
         });
 
+        binding.statusList.showShimmerAdapter();
         database.getReference().child("Stories").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -130,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         userStatuses.add(userStatus);
                     }
 
+                    binding.statusList.hideShimmerAdapter();
                     statusAdapter.notifyDataSetChanged();
                 }
             }
@@ -200,6 +207,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.topmenu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database.getReference().child("presence").child(uid).setValue("online");
+    }
+
+    @Override
+    protected void onStop() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database.getReference().child("presence").child(uid).setValue("offline");
+        super.onStop();
     }
 
     @Override

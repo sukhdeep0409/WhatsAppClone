@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Models.Message;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.databinding.ItemRecieveBinding;
@@ -112,6 +114,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         if (holder.getClass() == sentViewHolder.class) {
             sentViewHolder viewHolder = (sentViewHolder) holder;
+
+            if (message.getMessage().equals("photo")) {
+                viewHolder.binding.sendImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageURL()).placeholder(R.drawable.placeholder).into(viewHolder.binding.sendImage);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
 
             if (message.getFeeling() >= 0) {
@@ -126,9 +135,21 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 popup.onTouch(view, motionEvent);
                 return false;
             });
+
+            viewHolder.binding.sendImage.setOnTouchListener((view, motionEvent) -> {
+                popup.onTouch(view, motionEvent);
+                return false;
+            });
         }
         else {
             receiverViewHolder viewHolder = (receiverViewHolder) holder;
+
+            if (message.getMessage().equals("photo")) {
+                viewHolder.binding.receiveImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageURL()).placeholder(R.drawable.placeholder).into(viewHolder.binding.receiveImage);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
 
             if (message.getFeeling() >= 0) {
@@ -140,6 +161,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
             }
 
             viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
+                popup.onTouch(view, motionEvent);
+                return false;
+            });
+
+            viewHolder.binding.receiveImage.setOnTouchListener((view, motionEvent) -> {
                 popup.onTouch(view, motionEvent);
                 return false;
             });

@@ -2,7 +2,7 @@ package com.example.whatsappclone.Models;
 
 public class Message {
 
-    private String messageId, message, senderId;
+    private String messageId, message, senderId, imageURL;
     private long timestamp;
     private int feeling = -1;
 
@@ -53,5 +53,13 @@ public class Message {
 
     public void setFeeling(int feeling) {
         this.feeling = feeling;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
