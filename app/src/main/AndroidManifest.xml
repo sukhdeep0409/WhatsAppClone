@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.whatsappclone">
+    
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsAppClone"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ChatActivity"></activity>
+        <activity android:name=".Activities.RegisteredUsers"></activity>
+        <activity android:name=".Activities.CallLogs" />
+        <activity android:name=".Activities.ChatActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.OTPActivity" />
         <activity android:name=".Activities.PhoneNumberActivity">
@@ -21,6 +25,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MainActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_send" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/teal_700" />
     </application>
 
 </manifest>

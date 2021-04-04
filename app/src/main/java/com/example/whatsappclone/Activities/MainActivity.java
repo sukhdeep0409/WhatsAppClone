@@ -3,11 +3,11 @@ package com.example.whatsappclone.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +22,6 @@ import com.example.whatsappclone.R;
 import com.example.whatsappclone.Models.User;
 import com.example.whatsappclone.Adapters.UsersAdapter;
 import com.example.whatsappclone.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading Status...");
@@ -153,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent, 75);
                 break;
+                case R.id.calls:
+                    startActivity(new Intent(MainActivity.this, CallLogs.class));
+                    finish();
             }
             return false;
         });
@@ -231,10 +236,14 @@ public class MainActivity extends AppCompatActivity {
             break;
             case R.id.invite :
                 Toast.makeText(this, "Invite Clicked", Toast.LENGTH_SHORT).show();
+                Log.i("CHECK_INVITE_CLICKED", "YES");
             break;
             case R.id.settings:
                 Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
             break;
+            case R.id.users :
+                startActivity(new Intent(MainActivity.this, RegisteredUsers.class));
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }

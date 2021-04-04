@@ -35,11 +35,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -58,6 +61,7 @@ public class ChatActivity extends AppCompatActivity {
     String receiverUid;
 
     @Override
+    @SuppressLint("SimpleDateFormat")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
@@ -146,6 +150,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
+
         binding.sendButton.setOnClickListener(view -> {
             String msgTxt = binding.messageBox.getText().toString();
 
@@ -156,11 +161,16 @@ public class ChatActivity extends AppCompatActivity {
 
             String randomKey = database.getReference().push().getKey();
 
-            HashMap<String, Object> lastMessage = new HashMap<>();
-            lastMessage.put("lastMessage", messageObject.getMessage());
-            lastMessage.put("lastMessageTime", date.getTime());
+            HashMap<String, Object> lastMessage = getTime(messageObject.getMessage());
 
-            Log.i("LAST_TIME_MESSAGE", String.valueOf(date.getTime()));
+            /*SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.UK);
+            Format format = new SimpleDateFormat("a");
+            String markTime = format.format(date);
+
+            lastMessage.put("lastMessage", messageObject.getMessage());
+            lastMessage.put("lastMessageTime", dateFormat.format(date) + " " + markTime);
+
+            Log.i("LAST_TIME_MESSAGE", dateFormat.format(date));*/
 
             database.getReference()
                     .child("chats")
@@ -241,8 +251,6 @@ public class ChatActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             reference.getDownloadUrl().addOnSuccessListener(uri -> {
                                 String filePath = uri.toString();
-
-                                //send button
                                 String msgTxt = binding.messageBox.getText().toString();
 
                                 binding.messageBox.setText("");
@@ -253,11 +261,13 @@ public class ChatActivity extends AppCompatActivity {
 
                                 String randomKey = database.getReference().push().getKey();
 
-                                HashMap<String, Object> lastMessage = new HashMap<>();
+                                HashMap<String, Object> lastMessage = getTime(messageObject.getMessage());
+
+                                /*HashMap<String, Object> lastMessage = new HashMap<>();
                                 lastMessage.put("lastMessage", messageObject.getMessage());
                                 lastMessage.put("lastMessageTime", date.getTime());
 
-                                Log.i("LAST_TIME_MESSAGE", String.valueOf(date.getTime()));
+                                Log.i("LAST_TIME_MESSAGE", String.valueOf(date.getTime()));*/
 
                                 database.getReference()
                                         .child("chats")
@@ -293,6 +303,21 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private HashMap<String, Object> getTime(String message) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.UK);
+        Format format = new SimpleDateFormat("a");
+        String markTime = format.format(date);
+
+        HashMap<String, Object> lastMessage = new HashMap<>();
+        lastMessage.put("lastMessage", message);
+        lastMessage.put("lastMessageTime", dateFormat.format(date) + " " + markTime);
+
+        Log.i("LAST_TIME_MESSAGE", dateFormat.format(date));
+
+        return lastMessage;
     }
 
     @Override

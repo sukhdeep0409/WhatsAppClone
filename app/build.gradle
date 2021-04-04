@@ -65,6 +65,7 @@ dependencies {
 
     //shimmer view
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

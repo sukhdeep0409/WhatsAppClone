@@ -56,7 +56,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                         if (snapshot.exists()) {
 
                             String lastmsg = snapshot.child("lastMessage").getValue(String.class);
-                            long lastTIme = snapshot.child("lastMessageTime").getValue(Long.class);
+                            String lastTIme = snapshot.child("lastMessageTime").getValue(String.class);
 
                             holder.binding.lastMessage.setText(lastmsg);
                             holder.binding.timeStamp.setText(String.valueOf(lastTIme));
