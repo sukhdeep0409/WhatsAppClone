@@ -31,6 +31,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public UsersAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -57,6 +58,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
                             String lastmsg = snapshot.child("lastMessage").getValue(String.class);
                             String lastTIme = snapshot.child("lastMessageTime").getValue(String.class);
+
+                            Log.i("CHECK_LATEST_MESSAGE", lastmsg);
 
                             holder.binding.lastMessage.setText(lastmsg);
                             holder.binding.timeStamp.setText(String.valueOf(lastTIme));

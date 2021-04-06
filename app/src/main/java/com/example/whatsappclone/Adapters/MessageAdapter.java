@@ -38,6 +38,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         this.messages = messages;
         this.senderRoom = senderRoom;
         this.receiverRoom = receiverRoom;
+        notifyDataSetChanged();
     }
 
     @NonNull

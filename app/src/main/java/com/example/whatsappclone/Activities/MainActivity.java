@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.whatsappclone.Adapters.ContactsAdapter;
 import com.example.whatsappclone.Adapters.TopStatusAdapter;
 import com.example.whatsappclone.Models.Status;
 import com.example.whatsappclone.Models.UserStatus;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,25 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.recyclerView.showShimmerAdapter();
 
-        database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if (!user.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        users.add(user);
-                    }
-                }
-
-                binding.recyclerView.hideShimmerAdapter();
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
+        getUserAndMessage();
 
         binding.statusList.showShimmerAdapter();
         database.getReference().child("Stories").addValueEventListener(new ValueEventListener() {
@@ -158,8 +142,32 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.calls:
                     startActivity(new Intent(MainActivity.this, CallLogs.class));
                     finish();
+                break;
             }
             return false;
+        });
+    }
+
+    private void getUserAndMessage() {
+        database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (!user.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        users.add(user);
+                    }
+                }
+
+                binding.recyclerView.hideShimmerAdapter();
+                adapter = new UsersAdapter(MainActivity.this, users);
+                binding.recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
@@ -223,7 +231,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        //Log.i("CHECK_THE_UID", uid);
         database.getReference().child("presence").child(uid).setValue("offline");
         super.onPause();
     }
@@ -244,12 +253,19 @@ public class MainActivity extends AppCompatActivity {
             case R.id.users :
                 startActivity(new Intent(MainActivity.this, RegisteredUsers.class));
                 finish();
+            break;
+            case R.id.logout :
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, PhoneNumberActivity.class));
+                finishAffinity();
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onStart() {
+        getUserAndMessage();
         super.onStart();
     }
 }

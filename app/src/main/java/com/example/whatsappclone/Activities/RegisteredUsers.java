@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,32 +17,33 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
-import com.example.whatsappclone.Adapters.ContactAdapter;
+import com.example.whatsappclone.Adapters.ContactsAdapter;
 import com.example.whatsappclone.Models.Contact;
-import com.example.whatsappclone.R;
 import com.example.whatsappclone.databinding.ActivityRegisteredUsersBinding;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RegisteredUsers extends AppCompatActivity {
 
     ActivityRegisteredUsersBinding binding;
 
     ArrayList<Contact> list = new ArrayList<>();
-    ContactAdapter adapter;
+    ContactsAdapter contactsAdapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisteredUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        checkPermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            checkPermission();
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(RegisteredUsers.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
         {
@@ -55,7 +54,7 @@ public class RegisteredUsers extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void getContact() {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
 
@@ -94,12 +93,19 @@ public class RegisteredUsers extends AppCompatActivity {
             cursor.close();
         }
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        FirebaseRecyclerOptions<Contact> options =
+                new FirebaseRecyclerOptions.Builder<Contact>()
+                .setQuery(reference, Contact.class)
+                .build();
+
+        contactsAdapter = new ContactsAdapter(options, list, RegisteredUsers.this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ContactAdapter(this, list);
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(contactsAdapter);
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -110,12 +116,27 @@ public class RegisteredUsers extends AppCompatActivity {
         else {
             //when permissions denied
             Toast.makeText(this, "You won't be able to see your contacts in this app", Toast.LENGTH_LONG).show();
-            checkPermission();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                checkPermission();
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(RegisteredUsers.this, MainActivity.class));
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        contactsAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        contactsAdapter.stopListening();
     }
 }

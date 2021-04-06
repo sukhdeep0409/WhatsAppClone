@@ -16,6 +16,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -97,5 +102,10 @@ public class OTPActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(getApplicationContext(), PhoneNumberActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

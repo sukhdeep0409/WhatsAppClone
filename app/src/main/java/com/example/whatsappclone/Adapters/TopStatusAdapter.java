@@ -30,6 +30,7 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
     public TopStatusAdapter(Context context, List<UserStatus> userStatuses) {
         this.context = context;
         this.userStatuses = userStatuses;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -61,7 +62,7 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
                     .setTitleText(userStatus.getName()) // Default is Hidden
                     .setSubtitleText("") // Default is Hidden
-                    .setTitleLogoUrl("") // Default is Hidden
+                    .setTitleLogoUrl(lastStatus.getImageURL()) // Default is Hidden
                     .setStoryClickListeners(new StoryClickListeners() {
                         @Override
                         public void onDescriptionClickListener(int position) {
