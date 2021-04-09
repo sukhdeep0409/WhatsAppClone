@@ -87,7 +87,7 @@ public class OTPActivity extends AppCompatActivity {
             auth.signInWithCredential(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(this, "Logged In", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class).putExtra("user", "logged_out"));
                     finishAffinity();                      //closes all the previous activities
                 }
                 else {

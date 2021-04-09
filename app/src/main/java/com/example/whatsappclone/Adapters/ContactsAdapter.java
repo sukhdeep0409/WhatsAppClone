@@ -36,6 +36,7 @@ public class ContactsAdapter extends FirebaseRecyclerAdapter<Contact, ContactsAd
         super(options);
         this.list = list;
         this.context = context;
+        notifyDataSetChanged();
     }
 
     @Override

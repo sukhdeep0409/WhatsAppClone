@@ -1,4 +1,4 @@
-package com.example.whatsappclone.Adapters;
+ package com.example.whatsappclone.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.whatsappclone.Activities.MainActivity;
+import com.example.whatsappclone.Activities.HomeActivity;
 import com.example.whatsappclone.Models.Status;
 import com.example.whatsappclone.Models.UserStatus;
 import com.example.whatsappclone.R;
@@ -49,6 +49,7 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
         Glide.with(context).load(lastStatus.getImageURL()).into(holder.binding.imageStatus);
 
         holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
+        holder.binding.nameStatus.setText(userStatus.getName());
 
         holder.binding.circularStatusView.setOnClickListener(view -> {
             ArrayList<MyStory> myStories = new ArrayList<>();
@@ -57,12 +58,12 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
                 myStories.add(new MyStory(status.getImageURL()));
             }
 
-            new StoryView.Builder(((MainActivity)context).getSupportFragmentManager())
+            new StoryView.Builder(((HomeActivity)context).getSupportFragmentManager())
                     .setStoriesList(myStories) // Required
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
                     .setTitleText(userStatus.getName()) // Default is Hidden
                     .setSubtitleText("") // Default is Hidden
-                    .setTitleLogoUrl(lastStatus.getImageURL()) // Default is Hidden
+                    .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
                     .setStoryClickListeners(new StoryClickListeners() {
                         @Override
                         public void onDescriptionClickListener(int position) {

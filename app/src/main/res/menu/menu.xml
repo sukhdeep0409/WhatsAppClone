@@ -7,12 +7,12 @@
         android:title="Chats" />
 
     <item
-        android:id="@+id/status"
-        android:icon="@drawable/ic_status"
-        android:title="Status" />
+        android:id="@+id/users"
+        android:icon="@drawable/ic_person_search"
+        android:title="Users" />
 
     <item
-        android:id="@+id/calls"
-        android:icon="@drawable/ic_call"
-        android:title="Logs" />
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_person"
+        android:title="Profile" />
 </menu>

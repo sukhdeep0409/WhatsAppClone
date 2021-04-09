@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Adapters.MessageAdapter;
+import com.example.whatsappclone.Fragments.HomeFragment;
 import com.example.whatsappclone.Models.Message;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.databinding.ActivityChatBinding;
@@ -77,7 +78,7 @@ public class ChatActivity extends AppCompatActivity {
         Glide.with(ChatActivity.this).load(profile).placeholder(R.drawable.avatar).into(binding.profileImage);
 
         binding.backArrow.setOnClickListener(view -> {
-            startActivity(new Intent(ChatActivity.this, MainActivity.class));
+            startActivity(new Intent(ChatActivity.this, HomeFragment.class));
             finish();
         });
 
@@ -99,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String status = snapshot.getValue(String.class);
-                    if (status.equals("online")) {
+                    if (! status.equals("offline")) {
                         binding.status.setText(status);
                         binding.status.setVisibility(View.VISIBLE);
                     }
@@ -221,7 +222,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                database.getReference().child("presence").child(senderUid).setValue("typing... ");
+                database.getReference().child("presence").child(senderUid).setValue("typing ... ");
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(userStoppedTyping, 1000);
             }

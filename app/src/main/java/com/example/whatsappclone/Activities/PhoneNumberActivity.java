@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.whatsappclone.Fragments.HomeFragment;
 import com.example.whatsappclone.databinding.ActivityPhoneNumberBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,11 +25,15 @@ public class PhoneNumberActivity extends AppCompatActivity {
 
     ActivityPhoneNumberBinding binding;
 
+    public static SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPhoneNumberBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        sharedPreferences = getSharedPreferences("auto_login", Context.MODE_PRIVATE);
 
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
@@ -36,6 +44,9 @@ public class PhoneNumberActivity extends AppCompatActivity {
         binding.nameGet.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), OTPActivity.class);
             intent.putExtra("phoneNumber", binding.phoneBox.getText().toString());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("key", 1);
+            editor.apply();
             finish();
             startActivity(intent);
         });
@@ -46,9 +57,9 @@ public class PhoneNumberActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Log.i("CHECK_THE_UID", String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid() ));
-        if (FirebaseAuth.getInstance().getCurrentUser().getUid() != null) {
-            startActivity(new Intent(PhoneNumberActivity.this, MainActivity.class));
+        int prefs = sharedPreferences.getInt("key", 0);
+        if (prefs > 0) {
+            startActivity(new Intent(PhoneNumberActivity.this, HomeActivity.class));
             finish();
         }
     }

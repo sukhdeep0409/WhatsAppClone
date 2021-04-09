@@ -32,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
     Uri image;
     ProgressDialog dialog;
 
+    String user, username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +44,18 @@ public class ProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("Profile Setup");
 
+        user = getIntent().getStringExtra("user");
+
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Logging you in ... ");
         dialog.setCancelable(false);
+        if(user.equals("logged_in")) {
+            dialog.setMessage("Setting up your profile ... ");
+            username = getIntent().getStringExtra("user");
+            binding.nameBox.setText(username);
+        }
+        else {
+            dialog.setMessage("Logging you in ... ");
+        }
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -52,8 +63,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         binding.profilePic.setOnClickListener(view -> {
             Intent intent = new Intent();
+            intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("images/*");
             startActivityForResult(intent, 45);
         });
         
@@ -81,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                             database.getReference().child("Users").child(auth.getCurrentUser().getUid()).setValue(user).addOnSuccessListener(this, aVoid -> {
                                 dialog.dismiss();
-                                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                                 finish();
                             });
                         });
@@ -97,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
                 database.getReference().child("Users").child(auth.getCurrentUser().getUid())
                         .setValue(user).addOnSuccessListener(this, aVoid -> {
                                 dialog.dismiss();
-                                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                                 finish();
                 });
             }
@@ -118,20 +129,36 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-               DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(auth.getCurrentUser().getUid());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-                    finish();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {  }
-        });
+        if (!user.equals("logged_in")) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(auth.getCurrentUser().getUid());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
 
         super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (user.equals("logged_in")) {
+            startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+            finish();
+        }
+        else {
+            startActivity(new Intent(ProfileActivity.this, OTPActivity.class));
+            finish();
+        }
     }
 }

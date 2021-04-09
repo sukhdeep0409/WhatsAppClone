@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import android.widget.Toast;
 
 import com.example.whatsappclone.Adapters.ContactsAdapter;
+import com.example.whatsappclone.Fragments.HomeFragment;
 import com.example.whatsappclone.Models.Contact;
 import com.example.whatsappclone.databinding.ActivityRegisteredUsersBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -124,7 +125,7 @@ public class RegisteredUsers extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(RegisteredUsers.this, MainActivity.class));
+        startActivity(new Intent(RegisteredUsers.this, HomeActivity.class));
         finish();
     }
 
