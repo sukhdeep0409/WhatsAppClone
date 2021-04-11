@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-//commit changes
+//commit change
 
 public class ChatActivity extends AppCompatActivity {
 
