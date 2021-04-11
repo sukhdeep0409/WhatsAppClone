@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+//commit changes
+
 public class ChatActivity extends AppCompatActivity {
 
     ActivityChatBinding binding;
