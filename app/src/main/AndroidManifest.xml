@@ -11,7 +11,6 @@
         android:theme="@style/Theme.WhatsAppClone"
         android:usesCleartextTraffic="true">
         <activity android:name=".Activities.HomeActivity"  />
-        <activity android:name=".Activities.RegisteredUsers" />
         <activity android:name=".Activities.ChatActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.OTPActivity" />

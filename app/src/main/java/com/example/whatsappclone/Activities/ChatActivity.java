@@ -78,7 +78,7 @@ public class ChatActivity extends AppCompatActivity {
         Glide.with(ChatActivity.this).load(profile).placeholder(R.drawable.avatar).into(binding.profileImage);
 
         binding.backArrow.setOnClickListener(view -> {
-            startActivity(new Intent(ChatActivity.this, HomeFragment.class));
+            startActivity(new Intent(ChatActivity.this, HomeActivity.class));
             finish();
         });
 

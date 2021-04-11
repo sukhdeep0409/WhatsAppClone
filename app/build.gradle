@@ -49,6 +49,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
 
+    //dialogplus
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
+
     //circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
