@@ -64,7 +64,6 @@ public class ChatActivity extends AppCompatActivity {
     String receiverUid;
 
     @Override
-    @SuppressLint("SimpleDateFormat")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
@@ -75,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
 
         String name = getIntent().getStringExtra("name");
         String profile = getIntent().getStringExtra("image");
+        String uid = getIntent().getStringExtra("uid");
 
         binding.name.setText(name);
         Glide.with(ChatActivity.this).load(profile).placeholder(R.drawable.avatar).into(binding.profileImage);
@@ -116,6 +116,12 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+        });
+
+        binding.profileDetails.setOnClickListener(view -> {
+            Intent intent = new Intent(ChatActivity.this, UsersProfile.class);
+            intent.putExtra("uid", uid);
+            startActivity(intent);
         });
 
         senderRoom = senderUid + receiverUid;
@@ -308,6 +314,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private HashMap<String, Object> getTime(String message) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.UK);
