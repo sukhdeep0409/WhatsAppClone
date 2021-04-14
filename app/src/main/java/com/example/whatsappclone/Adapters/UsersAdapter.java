@@ -62,10 +62,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                             Log.i("CHECK_LATEST_MESSAGE", lastmsg);
 
                             holder.binding.lastMessage.setText(lastmsg);
+                            holder.binding.timeStamp.setVisibility(View.VISIBLE);
                             holder.binding.timeStamp.setText(String.valueOf(lastTIme));
                         }
                         else {
                             holder.binding.lastMessage.setText("Tap to chat");
+                            holder.binding.timeStamp.setVisibility(View.GONE);
                         }
                     }
 

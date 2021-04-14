@@ -123,6 +123,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
             }
 
             viewHolder.binding.message.setText(message.getMessage());
+            viewHolder.binding.timeOfMessage.setText(message.getTimeStamp());
 
             if (message.getFeeling() >= 0) {
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
@@ -152,6 +153,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
             }
 
             viewHolder.binding.message.setText(message.getMessage());
+            viewHolder.binding.timeOfMessage.setText(message.getTimeStamp());
 
             if (message.getFeeling() >= 0) {
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
@@ -179,7 +181,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
     }
 
     static class sentViewHolder extends RecyclerView.ViewHolder {
-
         ItemSendBinding binding;
 
         public sentViewHolder(@NonNull View itemView) {
@@ -189,7 +190,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
     }
 
     static class receiverViewHolder extends RecyclerView.ViewHolder {
-
         ItemRecieveBinding binding;
 
         public receiverViewHolder(@NonNull View itemView) {

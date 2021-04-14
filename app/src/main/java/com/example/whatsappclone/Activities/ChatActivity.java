@@ -165,7 +165,10 @@ public class ChatActivity extends AppCompatActivity {
 
             binding.messageBox.setText("");
             Date date = new Date();
-            Message messageObject = new Message(msgTxt, senderUid, date.getTime());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.UK);
+            Format format = new SimpleDateFormat("a");
+            String markTime = format.format(date);
+            Message messageObject = new Message(msgTxt, senderUid, dateFormat.format(date) + " " + markTime);
             messageObject.setMessage(msgTxt);
 
             String randomKey = database.getReference().push().getKey();
@@ -264,7 +267,10 @@ public class ChatActivity extends AppCompatActivity {
 
                                 binding.messageBox.setText("");
                                 Date date = new Date();
-                                Message messageObject = new Message(msgTxt, senderUid, date.getTime());
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.UK);
+                                Format format = new SimpleDateFormat("a");
+                                String markTime = format.format(date);
+                                Message messageObject = new Message(msgTxt, senderUid, dateFormat.format(date) + " " + markTime);
                                 messageObject.setImageURL(filePath);
                                 messageObject.setMessage("photo");
 

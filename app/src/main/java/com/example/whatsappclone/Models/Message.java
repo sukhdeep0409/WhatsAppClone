@@ -3,16 +3,16 @@ package com.example.whatsappclone.Models;
 public class Message {
 
     private String messageId, message, senderId, imageURL;
-    private long timestamp;
+    private String timeStamp;
     private int feeling = -1;
 
     public Message() {
     }
 
-    public Message(String message, String senderId, long timestamp) {
+    public Message(String message, String senderId,  String timeStamp) {
         this.message = message;
         this.senderId = senderId;
-        this.timestamp = timestamp;
+        this.timeStamp = timeStamp;
     }
 
     public String getMessageId() {
@@ -39,14 +39,6 @@ public class Message {
         this.senderId = senderId;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public int getFeeling() {
         return feeling;
     }
@@ -61,5 +53,13 @@ public class Message {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
